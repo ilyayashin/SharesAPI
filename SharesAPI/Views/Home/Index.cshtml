@@ -8,8 +8,8 @@
     @foreach (var item in Model)
      {
         <tr><td>@item.ShareId</td><td>@item.ShareName</td><td>@item.Groups.GroupName</td><td>
-        <a asp-action="EditShare" asp-controller="Home" asp-route-id="@item.ShareId">Изменить</a> |
-        <a asp-action="DeleteShare" asp-controller="Home" asp-route-id="@item.ShareId">Удалить</a>
+        <a asp-action="EditShares" asp-controller="Home" asp-route-id="@item.ShareId">Изменить</a> |
+        <a asp-action="DeleteShares" asp-controller="Home" asp-route-id="@item.ShareId">Удалить</a>
         </td></tr>
      }
 </table>

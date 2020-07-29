@@ -38,6 +38,54 @@ namespace SharesAPI.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> EditShares(int? id)
+        {
+            ViewBag.Groups = new SelectList(db.Groups, "GroupId", "GroupName");
+            if (id != null)
+            {
+                Shares Shares = await db.Shares.FirstOrDefaultAsync(p => p.ShareId == id);
+                if (Shares != null)
+                    return View(Shares);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditShares(Shares Shares)
+        {
+            db.Shares.Update(Shares);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [ActionName("DeleteShares")]
+        public async Task<IActionResult> ConfirmDeleteShares(int? id)
+        {
+            if (id != null)
+            {
+                Shares Shares = await db.Shares.Include(p => p.Groups).FirstOrDefaultAsync(p => p.ShareId == id);
+                if (Shares != null)
+                    return View(Shares);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteShares(int? id)
+        {
+            if (id != null)
+            {
+                Shares Shares = await db.Shares.FirstOrDefaultAsync(p => p.ShareId == id);
+                if (Shares != null)
+                {
+                    db.Shares.Remove(Shares);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+            }
+            return NotFound();
+        }
+
         //-------------------- GROUPS
         public async Task<IActionResult> IndexGroups()
         {
@@ -53,6 +101,53 @@ namespace SharesAPI.Controllers
             db.Groups.Add(Groups);
             await db.SaveChangesAsync();
             return RedirectToAction("IndexGroups");
+        }
+
+        public async Task<IActionResult> EditGroups(int? id)
+        {
+            if (id != null)
+            {
+                Groups Groups = await db.Groups.FirstOrDefaultAsync(p => p.GroupId == id);
+                if (Groups != null)
+                    return View(Groups);
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditGroups(Groups Groups)
+        {
+            db.Groups.Update(Groups);
+            await db.SaveChangesAsync();
+            return RedirectToAction("IndexGroups");
+        }
+
+        [HttpGet]
+        [ActionName("DeleteGroups")]
+        public async Task<IActionResult> ConfirmDeleteGroups(int? id)
+        {
+            if (id != null)
+            {
+                Groups Groups = await db.Groups.FirstOrDefaultAsync(p => p.GroupId == id);
+                if (Groups != null)
+                    return View(Groups);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteGroups(int? id)
+        {
+            if (id != null)
+            {
+                Groups Groups = await db.Groups.FirstOrDefaultAsync(p => p.GroupId == id);
+                if (Groups != null)
+                {
+                    db.Groups.Remove(Groups);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("IndexGroups");
+                }
+            }
+            return NotFound();
         }
     }
 
