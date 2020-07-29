@@ -21,9 +21,17 @@ namespace SharesAPI.Controllers
         }
 
         //-------------------- SHARES
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string group)
         {
+            IQueryable<Shares> Shares = db.Shares.Include(p => p.Groups);
+            if (!String.IsNullOrEmpty(group))
+            {
+                Shares = Shares.Where(p => p.Groups.GroupName == group);
+                if (Shares != null)
+                    return View(Shares);
+            }
             return View(await db.Shares.Include(p => p.Groups).ToListAsync());
+            
         }
         public IActionResult CreateShares()
         {
@@ -87,8 +95,15 @@ namespace SharesAPI.Controllers
         }
 
         //-------------------- GROUPS
-        public async Task<IActionResult> IndexGroups()
+        public async Task<IActionResult> IndexGroups(string? name)
         {
+            IQueryable<Groups> Groups = db.Groups;
+            if (!String.IsNullOrEmpty(name))
+            {
+                Groups = Groups.Where(p => p.GroupName == name);
+                if (Groups != null)
+                return View(Groups);
+            }
             return View(await db.Groups.ToListAsync());
         }
         public IActionResult CreateGroups()
@@ -109,7 +124,7 @@ namespace SharesAPI.Controllers
             {
                 Groups Groups = await db.Groups.FirstOrDefaultAsync(p => p.GroupId == id);
                 if (Groups != null)
-                    return View(Groups);
+                return View(Groups);
             }
             return NotFound();
         }
