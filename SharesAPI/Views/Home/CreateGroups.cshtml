@@ -1,0 +1,13 @@
+﻿@model SharesAPI.Models.Groups
+@{
+    ViewBag.Title = "Добавление Группы";
+}
+<form asp-action="CreateGroups" asp-controller="home">
+    <div class="form-group">
+        <label asp-for="GroupName" class="control-label">Название Группы</label>
+        <input type="text" asp-for="GroupName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Отправить" class="btn btn-default" />
+    </div>
+</form>

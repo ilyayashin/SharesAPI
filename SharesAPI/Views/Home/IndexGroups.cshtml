@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SharesAPI.Models.Groups>
+@{
+    ViewBag.Title = "Создание группы";
+}
+<a asp-action="CreateGroups">Добавить Группу</a>
+<table class="table">
+    <tr><td>№</td><td>Название Группы</td></tr>
+    @foreach (var item in Model)
+     {
+        <tr>
+        <td>@item.GroupId</td>
+        <td>@item.GroupName</td>
+        <a asp-action="EditShare" asp-controller="Home" asp-route-id="@item.GroupId">Изменить</a> |
+        <a asp-action="DeleteShare" asp-controller="Home" asp-route-id="@item.GroupId">Удалить</a>
+        </tr>
+     }
+</table>

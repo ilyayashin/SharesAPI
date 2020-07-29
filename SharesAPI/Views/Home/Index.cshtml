@@ -1,0 +1,15 @@
+﻿@model IEnumerable<SharesAPI.Models.Shares>
+@{
+    ViewBag.Title = "Акции";
+}
+<a asp-action="CreateShares">Добавить Акцию</a>
+<table class="table">
+    <tr><td>№</td><td>Название акции</td><td>Группа акции</td></tr>
+    @foreach (var item in Model)
+     {
+        <tr><td>@item.ShareId</td><td>@item.ShareName</td><td>@item.Groups.GroupName</td><td>
+        <a asp-action="EditShare" asp-controller="Home" asp-route-id="@item.ShareId">Изменить</a> |
+        <a asp-action="DeleteShare" asp-controller="Home" asp-route-id="@item.ShareId">Удалить</a>
+        </td></tr>
+     }
+</table>
